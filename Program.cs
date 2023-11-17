@@ -10,12 +10,14 @@ Platform plat = new Platform();
 while (Raylib.WindowShouldClose() == false)
 {
 
-    cube.StopFalling(game.windowHeight);
+
+    cube.Update(plat.platform);
+
     Raylib.BeginDrawing();
     Raylib.ClearBackground(Color.WHITE);
-    cube.Update();
     cube.Draw();
     plat.Draw();
+    Console.WriteLine($"{cube.onGround}");
 
     Raylib.EndDrawing();
 }
