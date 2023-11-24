@@ -14,7 +14,6 @@ public class Cube
 
     public void Move()
     {
-        velocity += 2;
 
         if (Raylib.IsKeyDown(KeyboardKey.KEY_D))
         {
@@ -33,10 +32,27 @@ public class Cube
         rect.Y += velocity;
     }
 
-    public void CheckCollision(Rectangle platform)
+
+    public void ApplyVelocity()
+    {
+        if (onGround)
+        {
+            velocity = 0;
+        }
+        else
+        {
+            velocity += 2;
+        }
+    }
+    public void SetonGroundToFalse()
+    {
+        onGround = false;
+    }
+
+    public void CheckCollision()
     {
         // Kollar ifall kuben nuddar golvet
-        if (rect.Y + 50 >= 800)
+        if (rect.Y >= 750)
         {
             rect.Y = 750;
             onGround = true;
@@ -51,17 +67,23 @@ public class Cube
         {
             rect.X = 0;
         }
-        if (Raylib.CheckCollisionRecs(rect, platform))
-        {
-            onGround = true;
-            velocity = 0;
-        }
+
+        // if (Raylib.CheckCollisionRecs(rect, platform))
+        // {
+        //     onGround = true;
+        //     velocity = 0;
+        // }
+
+
+
     }
 
-    public void Update(Rectangle platform)
-    {
 
-        CheckCollision(platform);
+    public void Update()
+    {
+        CheckCollision();
         Move();
+        ApplyVelocity();
+
     }
 }

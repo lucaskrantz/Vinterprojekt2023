@@ -5,19 +5,29 @@ Raylib.SetTargetFPS(60);
 
 Cube cube = new Cube();
 Game game = new Game();
-Platform plat = new Platform();
+List<Platform> platforms = new List<Platform>();
 
+void AddPlatform(List<Platform> platforms)
+{
+    platforms.Add(new Platform(600, 600, 200, 20));
+}
+AddPlatform(platforms);
 while (Raylib.WindowShouldClose() == false)
 {
 
-
-    cube.Update(plat.platform);
+    cube.SetonGroundToFalse();
+    game.CheckCollision(cube.rect, ref cube.onGround, ref cube.velocity, platforms);
+    cube.Update();
 
     Raylib.BeginDrawing();
     Raylib.ClearBackground(Color.WHITE);
+    foreach (Platform platform in platforms)
+    {
+        platform.Draw(platforms);
+    }
     cube.Draw();
-    plat.Draw();
     Console.WriteLine($"{cube.onGround}");
+    game.DrawHud(cube.velocity, cube.rect.Y);
 
     Raylib.EndDrawing();
 }
