@@ -7,19 +7,6 @@ Cube cube = new Cube();
 Game game = new Game();
 List<Platform> platforms = new List<Platform>();
 
-int removeCount = 0;
-
-
-void Remove(List<Platform> platforms)
-{
-
-    if (platforms.RemoveAll(p => p.rect.X <= -200) == 1)
-    {
-        removeCount++;
-    }
-}
-
-// AddPlatform(platforms);
 while (Raylib.WindowShouldClose() == false)
 {
     cube.SetonGroundToFalse();
@@ -33,10 +20,10 @@ while (Raylib.WindowShouldClose() == false)
         platform.Draw();
         platform.Update();
     }
-    Remove(platforms);
+    game.Remove(platforms);
     cube.Draw();
 
     Console.WriteLine($"{cube.onGround}");
-    game.DrawHud(cube.velocity, cube.rect.Y, game.timer, platforms, removeCount);
+    game.DrawHud(cube.velocity, cube.rect.Y, game.timer, platforms);
     Raylib.EndDrawing();
 }
