@@ -43,7 +43,7 @@ void Remove(List<Platform> platforms)
 // AddPlatform(platforms);
 while (Raylib.WindowShouldClose() == false)
 {
-    // cube.SetonGroundToFalse();
+    cube.SetonGroundToFalse();
     cube.CheckPlatformCollision(platforms);
     cube.Update();
     CheckTimer();
