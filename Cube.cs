@@ -67,17 +67,26 @@ public class Cube
         {
             rect.X = 0;
         }
-
-        // if (Raylib.CheckCollisionRecs(rect, platform))
-        // {
-        //     onGround = true;
-        //     velocity = 0;
-        // }
-
-
-
     }
 
+    public void SetYPos(Platform platform)
+    {
+        rect.Y = platform.rect.Y - 49;
+        onGround = true;
+    }
+
+    public void CheckPlatformCollision(List<Platform> platforms)
+    {
+        foreach (Platform platform in platforms)
+        {
+            if (Raylib.CheckCollisionRecs(rect, platform.rect))
+            {
+                onGround = true;
+                velocity = 0;
+                SetYPos(platform);
+            }
+        }
+    }
 
     public void Update()
     {
