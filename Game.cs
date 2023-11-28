@@ -3,9 +3,13 @@ using Raylib_cs;
 
 public class Game
 {
-    public float timer = 1f;
+    public float timer = 0f;
     private float timerMax = 1f;
     private int removeCount = 0;
+
+    public int gameState = 0;
+    // public bool showStartScreen = true;
+    // public bool showGameoverScreen = false;
     Random generator = new Random();
     private void ResetTimer()
     {
@@ -34,6 +38,71 @@ public class Game
     {
         int y = generator.Next(400, 600);
         platforms.Add(new Platform(1200, y, 200, 20));
+    }
+
+    public void AddFirstPlatform(List<Platform> platforms)
+    {
+        platforms.Add(new Platform(400, 400, 800, 20));
+    }
+
+    public void StartScreen()
+    {
+        Raylib.DrawText("Press LMB to start", 400, 350, 50, Color.BLUE);
+        if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        {
+            gameState = 1;
+        }
+
+    }
+    public void GameOverScreen()
+    {
+        Raylib.ClearBackground(Color.WHITE);
+        Raylib.DrawText("You lost!", 400, 350, 50, Color.BLUE);
+    }
+
+    public void CheckGameState()
+    {
+        if (gameState == 0)
+        {
+            StartScreen();
+        }
+        else if (gameState == 2)
+        {
+            GameOverScreen();
+        }
+    }
+    // public bool DecideScreen()
+    // {
+    //     if (showStartScreen)
+    //     {
+    //         StartScreen();
+    //         return true;
+    //     }
+    //     if (showGameoverScreen)
+    //     {
+    //         GameoverScreen();
+    //         return true;
+    //     }
+
+    //     else
+    //     {
+    //         return false;
+    //     }
+
+    // }
+    // public void GameoverScreen()
+    // {
+    //     if (showGameoverScreen)
+    //     {
+    //         Raylib.ClearBackground(Color.WHITE);
+    //         Raylib.DrawText("GAME OVER", 600, 400, 50, Color.BLUE);
+
+    //     }
+    // }
+
+    public void Died()
+    {
+        gameState = 2;
     }
     public void DrawHud(int velocity, float y, float timer, List<Platform> platforms)
     {

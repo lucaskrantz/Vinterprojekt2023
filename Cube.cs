@@ -49,13 +49,14 @@ public class Cube
         onGround = false;
     }
 
-    public void CheckCollision()
+    public void CheckCollision(Game game)
     {
         // Kollar ifall kuben nuddar golvet
         if (rect.Y >= 750)
         {
-            rect.Y = 750;
-            onGround = true;
+            // rect.Y = 750;
+            // onGround = true;
+            game.Died();
         }
         // Kollar ifall kuben nuddar höger vägg
         if (rect.X + 50 >= 1200)
@@ -88,9 +89,9 @@ public class Cube
         }
     }
 
-    public void Update()
+    public void Update(Game game)
     {
-        CheckCollision();
+        CheckCollision(game);
         Move();
         ApplyVelocity();
 
