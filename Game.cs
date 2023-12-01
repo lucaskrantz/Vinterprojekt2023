@@ -1,16 +1,40 @@
 ﻿using System.Runtime.InteropServices;
 using Raylib_cs;
-
 public class Game
 {
+
+
+    public enum Difficulty
+    {
+        Easy,
+        Medium,
+        Hard
+    }
+
+    public Difficulty currentDifficulty = Difficulty.Easy;
+
+
     public float timer = 0f;
     private float timerMax = 1f;
-    private int removeCount = 0;
+    public int removeCount = 0;
 
     public int gameState = 0;
-    // public bool showStartScreen = true;
-    // public bool showGameoverScreen = false;
     Random generator = new Random();
+
+    public void ChangeDifficulty()
+    {
+        if (removeCount >= 10 && removeCount < 20)
+        {
+            currentDifficulty = Difficulty.Medium;
+            timerMax = 0.5f;
+        }
+        else if (removeCount >= 20)
+        {
+            currentDifficulty = Difficulty.Hard;
+            
+
+        }
+    }
     private void ResetTimer()
     {
         timer = timerMax;
@@ -24,11 +48,8 @@ public class Game
             ResetTimer();
         }
     }
-
-
     public void Remove(List<Platform> platforms)
     {
-
         if (platforms.RemoveAll(p => p.rect.X <= -200) == 1)
         {
             removeCount++;
@@ -39,12 +60,10 @@ public class Game
         int y = generator.Next(400, 600);
         platforms.Add(new Platform(1200, y, 200, 20));
     }
-
     public void AddFirstPlatform(List<Platform> platforms)
     {
         platforms.Add(new Platform(400, 400, 800, 20));
     }
-
     public void StartScreen()
     {
         Raylib.DrawText("Press LMB to start", 400, 350, 50, Color.BLUE);
@@ -59,7 +78,6 @@ public class Game
         Raylib.ClearBackground(Color.WHITE);
         Raylib.DrawText("You lost!", 400, 350, 50, Color.BLUE);
     }
-
     public void CheckGameState()
     {
         if (gameState == 0)
@@ -71,35 +89,6 @@ public class Game
             GameOverScreen();
         }
     }
-    // public bool DecideScreen()
-    // {
-    //     if (showStartScreen)
-    //     {
-    //         StartScreen();
-    //         return true;
-    //     }
-    //     if (showGameoverScreen)
-    //     {
-    //         GameoverScreen();
-    //         return true;
-    //     }
-
-    //     else
-    //     {
-    //         return false;
-    //     }
-
-    // }
-    // public void GameoverScreen()
-    // {
-    //     if (showGameoverScreen)
-    //     {
-    //         Raylib.ClearBackground(Color.WHITE);
-    //         Raylib.DrawText("GAME OVER", 600, 400, 50, Color.BLUE);
-
-    //     }
-    // }
-
     public void Died()
     {
         gameState = 2;
@@ -111,7 +100,5 @@ public class Game
         Raylib.DrawText($"{timer}", 340, 340, 20, Color.BLACK);
         Raylib.DrawText($"{platforms.Count}", 360, 360, 20, Color.BLACK);
         Raylib.DrawText($"{removeCount}", 380, 380, 20, Color.BLACK);
-
     }
-
 }

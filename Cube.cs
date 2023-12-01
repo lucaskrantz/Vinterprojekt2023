@@ -3,7 +3,7 @@ using Microsoft.VisualBasic.FileIO;
 using Raylib_cs;
 public class Cube
 {
-    public Rectangle rect = new Rectangle(575, 0, 50, 50);
+    public Rectangle rect = new Rectangle(1100, 0, 50, 50);
     private int speed = 5;
     public int velocity = 2;
     public bool onGround = true;
