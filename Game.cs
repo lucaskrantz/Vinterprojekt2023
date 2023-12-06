@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Raylib_cs;
+using Vinterprojekt2023;
 public class Game
 {
 
@@ -15,7 +16,10 @@ public class Game
 
 
     public float timer = 0f;
+    public float eTimer = 0f;
     private float timerMax = 1f;
+    private float eTimerMax = 4f;
+
     public int removeCount = 0;
 
     public int gameState = 0;
@@ -28,24 +32,32 @@ public class Game
             currentDifficulty = Difficulty.Medium;
             timerMax = 0.5f;
         }
-        else if (removeCount >= 20)
+        else if (removeCount >= 30)
         {
             currentDifficulty = Difficulty.Hard;
-            
-
         }
     }
     private void ResetTimer()
     {
         timer = timerMax;
     }
-    public void CheckTimer(List<Platform> platforms)
+    private void ResetEvilTimer()
+    {
+        eTimer = eTimerMax;
+    }
+    public void CheckTimer(List<Platform> platforms, List<EvilPlatform> ePlatforms)
     {
         timer -= Raylib.GetFrameTime();
+        eTimer -= Raylib.GetFrameTime();
         if (timer <= 0)
         {
             AddPlatform(platforms);
             ResetTimer();
+        }
+        if (eTimer <= 0 && currentDifficulty != Difficulty.Easy)
+        {
+            AddEvilPlatform(ePlatforms);
+            ResetEvilTimer();
         }
     }
     public void Remove(List<Platform> platforms)
@@ -57,13 +69,15 @@ public class Game
     }
     protected void AddPlatform(List<Platform> platforms)
     {
-        int y = generator.Next(400, 600);
-        platforms.Add(new Platform(1200, y, 200, 20));
+        platforms.Add(new Platform());
     }
-    public void AddFirstPlatform(List<Platform> platforms)
+    protected void AddEvilPlatform(List<EvilPlatform> ePlatforms)
     {
-        platforms.Add(new Platform(400, 400, 800, 20));
+        ePlatforms.Add(new EvilPlatform());
     }
+
+
+
     public void StartScreen()
     {
         Raylib.DrawText("Press LMB to start", 400, 350, 50, Color.BLUE);
@@ -93,11 +107,12 @@ public class Game
     {
         gameState = 2;
     }
-    public void DrawHud(int velocity, float y, float timer, List<Platform> platforms)
+    public void DrawHud(int velocity, float y, float timer, List<Platform> platforms, float eTimer)
     {
         Raylib.DrawText($"{velocity}", 300, 300, 20, Color.BLACK);
         Raylib.DrawText($"{y}", 320, 320, 20, Color.BLACK);
         Raylib.DrawText($"{timer}", 340, 340, 20, Color.BLACK);
+        Raylib.DrawText($"{eTimer}", 400, 400, 20, Color.BLACK);
         Raylib.DrawText($"{platforms.Count}", 360, 360, 20, Color.BLACK);
         Raylib.DrawText($"{removeCount}", 380, 380, 20, Color.BLACK);
     }

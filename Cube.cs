@@ -1,12 +1,14 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using Microsoft.VisualBasic.FileIO;
 using Raylib_cs;
+using Vinterprojekt2023;
 public class Cube
 {
     public Rectangle rect = new Rectangle(1100, 0, 50, 50);
     private int speed = 5;
     public int velocity = 2;
     public bool onGround = true;
+    private int health = 1;
     public void Draw()
     {
         Raylib.DrawRectangleRec(rect, Color.BLUE);
@@ -76,7 +78,7 @@ public class Cube
         onGround = true;
     }
 
-    public void CheckPlatformCollision(List<Platform> platforms)
+    public void CheckPlatformCollision(List<Platform> platforms, List<EvilPlatform> ePlatforms)
     {
         foreach (Platform platform in platforms)
         {
@@ -87,11 +89,28 @@ public class Cube
                 SetYPos(platform);
             }
         }
+        foreach (EvilPlatform ePlatform in ePlatforms)
+        {
+            if (Raylib.CheckCollisionRecs(rect, ePlatform.rect))
+            {
+                health -= ePlatform.removeHealth;
+            }
+        }
     }
 
-    public void Update(Game game)
+    public void IsAlive(Game game)
     {
+        if (health <= 0)
+        {
+            game.Died();
+        }
+    }
+
+    public void Update(Game game, List<Platform> platforms, List<EvilPlatform> ePlatforms)
+    {
+        IsAlive(game);
         CheckCollision(game);
+        CheckPlatformCollision(platforms, ePlatforms);
         Move();
         ApplyVelocity();
 
