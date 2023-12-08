@@ -23,7 +23,6 @@ public class Game
     public int removeCount = 0;
 
     public int gameState = 0;
-    Random generator = new Random();
 
     public void ChangeDifficulty()
     {
@@ -80,7 +79,10 @@ public class Game
 
     public void StartScreen()
     {
-        Raylib.DrawText("Press LMB to start", 400, 350, 50, Color.BLUE);
+        Raylib.DrawText("Use A and D to move left or right.", 100, 200, 50, Color.BLUE);
+        Raylib.DrawText("Use SPACEBAR to jump", 100, 250, 50, Color.BLUE);
+        Raylib.DrawText("Press LMB to start", 100, 300, 50, Color.BLUE);
+        Raylib.DrawText("Beware of the deadly red platforms!", 100, 350, 50, Color.BLUE);
         if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
         {
             gameState = 1;

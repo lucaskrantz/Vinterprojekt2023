@@ -7,7 +7,6 @@ Cube cube = new Cube();
 Game game = new Game();
 List<Platform> platforms = new List<Platform>();
 List<EvilPlatform> ePlatforms = new List<EvilPlatform>();
-// platform.AddFirstPlatform(platforms);
 Console.WriteLine($"{game.gameState}");
 while (Raylib.WindowShouldClose() == false)
 {
