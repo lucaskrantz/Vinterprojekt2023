@@ -3,7 +3,7 @@ using Raylib_cs;
 using Vinterprojekt2023;
 public class Game
 {
-
+// En enum för olika svårigheter
 
     public enum Difficulty
     {
@@ -12,15 +12,16 @@ public class Game
         Hard
     }
 
+// Spelets svårighet börjar på easy.
     public Difficulty currentDifficulty = Difficulty.Easy;
 
 
     public float timer = 0f;
     public float eTimer = 0f;
-    private float timerMax = 1f;
-    private float eTimerMax = 4f;
+    private float timerMax = 1f;  // Timer för när plattformar ska spawnas
+    private float eTimerMax = 4f; // Timer för när onda plattformar ska spawnas
 
-    public int removeCount = 0;
+    public int removeCount = 0; // Variabel för antal borttagna plattformar
 
     public int gameState = 0;
 
@@ -44,6 +45,8 @@ public class Game
     {
         eTimer = eTimerMax;
     }
+
+    //Metod för spawning av plattformar
     public void CheckTimer(List<Platform> platforms, List<EvilPlatform> ePlatforms)
     {
         timer -= Raylib.GetFrameTime();
@@ -59,9 +62,11 @@ public class Game
             ResetEvilTimer();
         }
     }
+
+    //Metod som sköter borttagning av plattformar när de har passerat vänster kant av spelets fönster.
     public void Remove(List<Platform> platforms)
     {
-        if (platforms.RemoveAll(p => p.rect.X <= -200) == 1)
+        if (platforms.RemoveAll(p => p.rect.X <= -p.rect.Width) == 1)
         {
             removeCount++;
         }
@@ -76,14 +81,14 @@ public class Game
     }
 
 
-
+//Ifall vänster musknapp trycks ned ska spelet köras.
     public void StartScreen()
     {
         Raylib.DrawText("Use A and D to move left or right.", 100, 200, 50, Color.BLUE);
         Raylib.DrawText("Use SPACEBAR to jump", 100, 250, 50, Color.BLUE);
         Raylib.DrawText("Press LMB to start", 100, 300, 50, Color.BLUE);
         Raylib.DrawText("Beware of the deadly red platforms!", 100, 350, 50, Color.BLUE);
-        if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT)) 
         {
             gameState = 1;
         }

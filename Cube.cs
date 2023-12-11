@@ -72,6 +72,7 @@ public class Cube
         }
     }
 
+// Sätter kubens Y-värde till platformens y-värde minus 49.
     public void SetYPos(Platform platform)
     {
         rect.Y = platform.rect.Y - 49;
