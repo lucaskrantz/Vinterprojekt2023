@@ -3,7 +3,7 @@ using Raylib_cs;
 using Vinterprojekt2023;
 public class Game
 {
-// En enum för olika svårigheter
+    // En enum för olika svårigheter
 
     public enum Difficulty
     {
@@ -12,7 +12,7 @@ public class Game
         Hard
     }
 
-// Spelets svårighet börjar på easy.
+    // Spelets svårighet börjar på easy.
     public Difficulty currentDifficulty = Difficulty.Easy;
 
 
@@ -31,6 +31,8 @@ public class Game
         {
             currentDifficulty = Difficulty.Medium;
             timerMax = 0.5f;
+            Raylib.DrawText("Watch out for the red platforms!", 400, 200, 30, Color.BLACK);
+
         }
         else if (removeCount >= 30)
         {
@@ -81,14 +83,14 @@ public class Game
     }
 
 
-//Ifall vänster musknapp trycks ned ska spelet köras.
+    //Ifall vänster musknapp trycks ned ska spelet köras.
     public void StartScreen()
     {
         Raylib.DrawText("Use A and D to move left or right.", 100, 200, 50, Color.BLUE);
         Raylib.DrawText("Use SPACEBAR to jump", 100, 250, 50, Color.BLUE);
         Raylib.DrawText("Press LMB to start", 100, 300, 50, Color.BLUE);
         Raylib.DrawText("Beware of the deadly red platforms!", 100, 350, 50, Color.BLUE);
-        if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT)) 
+        if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
         {
             gameState = 1;
         }

@@ -25,19 +25,19 @@ while (Raylib.WindowShouldClose() == false)
         {
             platform.Update(game.currentDifficulty);
             platform.Draw();
-            Console.WriteLine($"platform speed:{platform.ReturnSpeed()}");
+            // Console.WriteLine($"platform speed:{platform.ReturnSpeed()}");
         }
 
         foreach (EvilPlatform ePlatform in ePlatforms)
         {
             ePlatform.Draw();
             ePlatform.Update();
-            Console.WriteLine($"ePlatform speed:{ePlatform.ReturnSpeed()}");
+            // Console.WriteLine($"ePlatform speed:{ePlatform.ReturnSpeed()}");
 
         }
         cube.Draw();
         Console.WriteLine($"{cube.onGround}");
-        game.DrawHud(cube.velocity, cube.rect.Y, game.timer, platforms, game.eTimer);
+        // game.DrawHud(cube.velocity, cube.rect.Y, game.timer, platforms, game.eTimer);
     }
     Raylib.EndDrawing();
 }
