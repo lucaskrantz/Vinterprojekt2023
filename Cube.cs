@@ -72,14 +72,14 @@ public class Cube
         }
     }
 
-// Sätter kubens Y-värde till platformens y-värde minus 49.
+    // Sätter kubens Y-värde till platformens y-värde minus 49.
     public void SetYPos(Platform platform)
     {
         rect.Y = platform.rect.Y - 49;
         onGround = true;
     }
 
-    public void CheckPlatformCollision(List<Platform> platforms, List<EvilPlatform> ePlatforms)
+    public void CheckPlatformCollision(List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
     {
         foreach (Platform platform in platforms)
         {
@@ -97,6 +97,14 @@ public class Cube
                 health -= ePlatform.removeHealth;
             }
         }
+        foreach (MysteryPlatform mPlatform in mPlatforms)
+        {
+            if (Raylib.CheckCollisionRecs(rect, mPlatform.rect))
+            {
+                rect.X = mPlatform.randomValue;
+                rect.Y = 0;
+            }
+        }
     }
 
     public void IsAlive(Game game)
@@ -107,11 +115,11 @@ public class Cube
         }
     }
 
-    public void Update(Game game, List<Platform> platforms, List<EvilPlatform> ePlatforms)
+    public void Update(Game game, List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
     {
         IsAlive(game);
         CheckCollision(game);
-        CheckPlatformCollision(platforms, ePlatforms);
+        CheckPlatformCollision(platforms, ePlatforms, mPlatforms);
         Move();
         ApplyVelocity();
 

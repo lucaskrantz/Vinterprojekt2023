@@ -7,6 +7,8 @@ Cube cube = new Cube();
 Game game = new Game();
 List<Platform> platforms = new List<Platform>();
 List<EvilPlatform> ePlatforms = new List<EvilPlatform>();
+List<MysteryPlatform> mPlatforms = new List<MysteryPlatform>();
+
 Console.WriteLine($"{game.gameState}");
 while (Raylib.WindowShouldClose() == false)
 {
@@ -15,8 +17,8 @@ while (Raylib.WindowShouldClose() == false)
     {
         game.ChangeDifficulty();
         cube.SetonGroundToFalse();
-        cube.Update(game, platforms, ePlatforms);
-        game.CheckTimer(platforms, ePlatforms);
+        cube.Update(game, platforms, ePlatforms, mPlatforms);
+        game.CheckTimer(platforms, ePlatforms, mPlatforms);
         game.Remove(platforms);
         Raylib.BeginDrawing();
         Raylib.ClearBackground(Color.WHITE);
@@ -31,7 +33,14 @@ while (Raylib.WindowShouldClose() == false)
         foreach (EvilPlatform ePlatform in ePlatforms)
         {
             ePlatform.Draw();
-            ePlatform.Update();
+            ePlatform.Update(game.currentDifficulty);
+            // Console.WriteLine($"ePlatform speed:{ePlatform.ReturnSpeed()}");
+
+        }
+        foreach (MysteryPlatform mPlatform in mPlatforms)
+        {
+            mPlatform.Draw();
+            mPlatform.Update(game.currentDifficulty);
             // Console.WriteLine($"ePlatform speed:{ePlatform.ReturnSpeed()}");
 
         }

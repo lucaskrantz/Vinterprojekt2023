@@ -5,7 +5,10 @@ using System.Security.Cryptography.X509Certificates;
 using Raylib_cs;
 public class Platform
 {
-    protected float speed = -6;
+    protected float easySpeed = -6;
+    protected float mediumSpeed = -9;
+    protected float hardSpeed = -12;
+    
     public Color color = Color.BLUE;
     public Rectangle rect = new Rectangle(1200, 500, 200, 20);
     protected Random generator = new Random();
@@ -18,26 +21,24 @@ public class Platform
         Raylib.DrawRectangleRec(rect, color);
     }
 
-    public float ReturnSpeed()
-    {
-        return speed;
-    }
-    
+    // public float ReturnSpeed()
+    // {
+    //     return speed;
+    // }
+
     public void Update(Game.Difficulty difficulty)
     {
         if (difficulty == Game.Difficulty.Medium)
         {
-            speed = -9;
-            rect.X += speed;
+            rect.X += mediumSpeed;
         }
         else if (difficulty == Game.Difficulty.Hard)
         {
-            speed = -12;
-            rect.X += speed;
+            rect.X += hardSpeed;
         }
         else
         {
-            rect.X += speed;
+            rect.X += easySpeed;
         }
     }
 }

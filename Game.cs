@@ -18,8 +18,10 @@ public class Game
 
     public float timer = 0f;
     public float eTimer = 0f;
+    public float mTimer = 0f;
     private float timerMax = 1f;  // Timer för när plattformar ska spawnas
     private float eTimerMax = 4f; // Timer för när onda plattformar ska spawnas
+    private float mTimerMax = 6f; // Timer för när onda plattformar ska spawnas
 
     public int removeCount = 0; // Variabel för antal borttagna plattformar
 
@@ -31,6 +33,7 @@ public class Game
         {
             currentDifficulty = Difficulty.Medium;
             timerMax = 0.5f;
+            // ResetMysteryTimer();
             Raylib.DrawText("Watch out for the red platforms!", 400, 200, 30, Color.BLACK);
 
         }
@@ -47,12 +50,17 @@ public class Game
     {
         eTimer = eTimerMax;
     }
+    private void ResetMysteryTimer()
+    {
+        mTimer = mTimerMax;
+    }
 
     //Metod för spawning av plattformar
-    public void CheckTimer(List<Platform> platforms, List<EvilPlatform> ePlatforms)
+    public void CheckTimer(List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
     {
         timer -= Raylib.GetFrameTime();
         eTimer -= Raylib.GetFrameTime();
+        mTimer -= Raylib.GetFrameTime();
         if (timer <= 0)
         {
             AddPlatform(platforms);
@@ -62,6 +70,11 @@ public class Game
         {
             AddEvilPlatform(ePlatforms);
             ResetEvilTimer();
+        }
+        if (mTimer <= 0 && currentDifficulty != Difficulty.Easy)
+        {
+            AddMysteryPlatform(mPlatforms);
+            ResetMysteryTimer();
         }
     }
 
@@ -80,6 +93,10 @@ public class Game
     protected void AddEvilPlatform(List<EvilPlatform> ePlatforms)
     {
         ePlatforms.Add(new EvilPlatform());
+    }
+    protected void AddMysteryPlatform(List<MysteryPlatform> mPlatforms)
+    {
+        mPlatforms.Add(new MysteryPlatform());
     }
 
 
