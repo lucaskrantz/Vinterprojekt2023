@@ -79,33 +79,61 @@ public class Cube
         onGround = true;
     }
 
-    public void CheckPlatformCollision(List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
+    public void CheckPlatformCollision(List<PlatformBase> platforms)
     {
-        foreach (Platform platform in platforms)
+        foreach (PlatformBase platformBase in platforms)
         {
-            if (Raylib.CheckCollisionRecs(rect, platform.rect))
+            if (platformBase is Platform platform)
             {
-                onGround = true;
-                velocity = 0;
-                SetYPos(platform);
+                if (Raylib.CheckCollisionRecs(rect, platform.GetCollisionRect()))
+                {
+                    onGround = true;
+                    velocity = 0;
+
+                    // Anropa SetYPos med den konverterade Platform-instansen
+                    SetYPos(platform);
+                }
             }
-        }
-        foreach (EvilPlatform ePlatform in ePlatforms)
-        {
-            if (Raylib.CheckCollisionRecs(rect, ePlatform.rect))
+
+            if (platformBase is EvilPlatform ePlatform && Raylib.CheckCollisionRecs(rect, ePlatform.GetCollisionRect()))
             {
                 health -= ePlatform.removeHealth;
             }
-        }
-        foreach (MysteryPlatform mPlatform in mPlatforms)
-        {
-            if (Raylib.CheckCollisionRecs(rect, mPlatform.rect))
+
+            if (platformBase is MysteryPlatform mPlatform && Raylib.CheckCollisionRecs(rect, mPlatform.GetCollisionRect()))
             {
                 rect.X = mPlatform.randomValue;
                 rect.Y = 0;
             }
         }
     }
+    // public void CheckPlatformCollision(List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
+    // {
+    //     foreach (Platform platform in platforms)
+    //     {
+    //         if (Raylib.CheckCollisionRecs(rect, platform.rect))
+    //         {
+    //             onGround = true;
+    //             velocity = 0;
+    //             SetYPos(platform);
+    //         }
+    //     }
+    //     foreach (EvilPlatform ePlatform in ePlatforms)
+    //     {
+    //         if (Raylib.CheckCollisionRecs(rect, ePlatform.rect))
+    //         {
+    //             health -= ePlatform.removeHealth;
+    //         }
+    //     }
+    //     foreach (MysteryPlatform mPlatform in mPlatforms)
+    //     {
+    //         if (Raylib.CheckCollisionRecs(rect, mPlatform.rect))
+    //         {
+    //             rect.X = mPlatform.randomValue;
+    //             rect.Y = 0;
+    //         }
+    //     }
+    // }
 
     public void IsAlive(Game game)
     {
@@ -115,14 +143,12 @@ public class Cube
         }
     }
 
-    public void Update(Game game, List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
+    public void Update(Game game, List<PlatformBase> platforms)
     {
         IsAlive(game);
         CheckCollision(game);
-        CheckPlatformCollision(platforms, ePlatforms, mPlatforms);
+        CheckPlatformCollision(platforms);
         Move();
         ApplyVelocity();
-
     }
 }
-    

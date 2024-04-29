@@ -1,10 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
 using Raylib_cs;
 using Vinterprojekt2023;
+
 public class Game
 {
-    // En enum för olika svårigheter
-
     public enum Difficulty
     {
         Easy,
@@ -12,22 +11,17 @@ public class Game
         Hard
     }
 
-    // Spelets svårighet börjar på easy.
     public Difficulty currentDifficulty = Difficulty.Easy;
+    public List<PlatformBase> platforms = new List<PlatformBase>(); // Använder en generisk lista för plattformar
 
-
-    public float timer = 0f;
-    public float eTimer = 0f;
-    public float mTimer = 0f;
-    private float timerMax = 1f;  // Timer för när plattformar ska spawnas
-    private float eTimerMax = 4f; // Timer för när onda plattformar ska spawnas
-    private float mTimerMax = 6f; // Timer för när onda plattformar ska spawnas
-
-    public int removeCount = 0; // Variabel för antal borttagna plattformar
-
+    private float timer = 0f;
+    private float eTimer = 0f;
+    private float mTimer = 0f;
+    private float timerMax = 1f;
+    private float eTimerMax = 4f;
+    private float mTimerMax = 6f;
+    private int removeCount = 0;
     public int gameState = 0;
-
-
 
     public void ChangeDifficulty()
     {
@@ -35,93 +29,88 @@ public class Game
         {
             currentDifficulty = Difficulty.Medium;
             timerMax = 0.5f;
-            // ResetMysteryTimer();
             Raylib.DrawText("Watch out for the red platforms!", 400, 200, 30, Color.BLACK);
-
         }
         else if (removeCount >= 30)
         {
             currentDifficulty = Difficulty.Hard;
         }
     }
-    private void ResetTimer()
+
+    public void Update()
     {
-        timer = timerMax;
-    }
-    private void ResetEvilTimer()
-    {
-        eTimer = eTimerMax;
-    }
-    private void ResetMysteryTimer()
-    {
-        mTimer = mTimerMax;
+        if (gameState == 1)
+        {
+            timer -= Raylib.GetFrameTime(); ;
+            eTimer -= Raylib.GetFrameTime();
+            mTimer -= Raylib.GetFrameTime();
+
+            if (timer <= 0)
+            {
+                AddPlatform<Platform>();
+                timer = timerMax;
+            }
+
+            if (eTimer <= 0 && currentDifficulty != Difficulty.Easy)
+            {
+                AddPlatform<EvilPlatform>(); // Lägg till EvilPlatform
+                eTimer = eTimerMax;
+            }
+
+            if (mTimer <= 0 && currentDifficulty != Difficulty.Easy)
+            {
+                AddPlatform<MysteryPlatform>(); // Lägg till MysteryPlatform
+                mTimer = mTimerMax;
+            }
+
+            // Uppdatera och rita ut alla plattformar
+            for (int i = platforms.Count - 1; i >= 0; i--)
+            {
+                var platform = platforms[i];
+                platform.Update(currentDifficulty);
+                platform.Draw();
+
+                if (platform.GetXPosition() <= -platform.rect.Width)
+                {
+                    platforms.Remove(platform);
+                    removeCount++;
+                }
+            }
+
+            // Ta bort plattformar som har passerat vänster kant
+            // platforms.RemoveAll(p => p.rect.X <= -p.rect.Width);
+        }
     }
 
-    //Metod för spawning av plattformar
-    public void CheckTimer(List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
+    // Generisk metod för att lägga till en ny plattform i listan
+    private void AddPlatform<T>() where T : PlatformBase, new()
     {
-        timer -= Raylib.GetFrameTime();
-        eTimer -= Raylib.GetFrameTime();
-        mTimer -= Raylib.GetFrameTime();
-        if (timer <= 0)
-        {
-            AddPlatform(platforms);
-            ResetTimer();
-        }
-        if (eTimer <= 0 && currentDifficulty != Difficulty.Easy)
-        {
-            AddEvilPlatform(ePlatforms);
-            ResetEvilTimer();
-        }
-        if (mTimer <= 0 && currentDifficulty != Difficulty.Easy)
-        {
-            AddMysteryPlatform(mPlatforms);
-            ResetMysteryTimer();
-        }
+        platforms.Add(new T());
     }
 
-    //Metod som sköter borttagning av plattformar när de har passerat vänster kant av spelets fönster.
-    public void Remove(List<Platform> platforms)
-    {
-        if (platforms.RemoveAll(p => p.rect.X <= -p.rect.Width) == 1)
-        {
-            removeCount++;
-        }
-    }
-    protected void AddPlatform(List<Platform> platforms)
-    {
-        platforms.Add(new Platform());
-    }
-    protected void AddEvilPlatform(List<EvilPlatform> ePlatforms)
-    {
-        ePlatforms.Add(new EvilPlatform());
-    }
-    protected void AddMysteryPlatform(List<MysteryPlatform> mPlatforms)
-    {
-        mPlatforms.Add(new MysteryPlatform());
-    }
-
-
-    //Ifall vänster musknapp trycks ned ska spelet köras.
     public void StartScreen()
     {
-        Raylib.DrawText("Use A and D to move left or right.", 100, 200, 50, Color.BLUE);
-        Raylib.DrawText("Use SPACEBAR to jump", 100, 250, 50, Color.BLUE);
-        Raylib.DrawText("Press LMB to start", 100, 300, 50, Color.BLUE);
-        Raylib.DrawText("Beware of the deadly red platforms!", 100, 350, 50, Color.BLUE);
+        // Startskärmen
+        string StartInstru = "Tryck på vänsterklick för att spela!";
+        string StartInstru2 = "Se upp för de röda och svarta plattofrmarna!";
+        Raylib.DrawText(StartInstru, 400, 400, 20, Color.WHITE);
+        Raylib.DrawText(StartInstru2, 440, 440, 20, Color.WHITE);
         if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
         {
             gameState = 1;
         }
-
     }
+
     public void GameOverScreen()
     {
+        // Game Over-skärmen
         Raylib.ClearBackground(Color.WHITE);
         Raylib.DrawText("You lost!", 400, 350, 50, Color.BLUE);
     }
+
     public void CheckGameState()
     {
+        // Kontrollera spelets tillstånd (startskärm, spela, game over)
         if (gameState == 0)
         {
             StartScreen();
@@ -131,16 +120,19 @@ public class Game
             GameOverScreen();
         }
     }
+
     public void Died()
     {
+        // Metod som anropas när spelaren dör
         gameState = 2;
     }
-    public void DrawHud(int velocity, float y, float timer, List<Platform> platforms, float eTimer)
+
+    public void DrawHud(int velocity, float y, float timer)
     {
+        // Rita ut HUD (heads-up display) med spelinformation
         Raylib.DrawText($"{velocity}", 300, 300, 20, Color.BLACK);
         Raylib.DrawText($"{y}", 320, 320, 20, Color.BLACK);
         Raylib.DrawText($"{timer}", 340, 340, 20, Color.BLACK);
-        Raylib.DrawText($"{eTimer}", 400, 400, 20, Color.BLACK);
         Raylib.DrawText($"{platforms.Count}", 360, 360, 20, Color.BLACK);
         Raylib.DrawText($"{removeCount}", 380, 380, 20, Color.BLACK);
     }

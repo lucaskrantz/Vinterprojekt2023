@@ -1,32 +1,38 @@
 ﻿
-using System.Dynamic;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography.X509Certificates;
 using Raylib_cs;
-public class Platform
+public class Platform : PlatformBase
 {
     protected float easySpeed = -6;
     protected float mediumSpeed = -9;
     protected float hardSpeed = -12;
-    
+
     public Color color = Color.BLUE;
-    public Rectangle rect = new Rectangle(1200, 500, 200, 20);
     protected Random generator = new Random();
+
     public Platform()
     {
         rect.Y = generator.Next(400, 600);
     }
-    public void Draw()
+
+    public override void Draw()
     {
         Raylib.DrawRectangleRec(rect, color);
     }
+    public override float GetXPosition()
+    {
+        return rect.X; // Returnera X-koordinaten för plattformen
+    }
+    public override Rectangle GetCollisionRect()
+    {
+        return rect; // Returnera plattformens kollisionsrektangel
+    }
 
-    // public float ReturnSpeed()
-    // {
-    //     return speed;
-    // }
+    public override float GetYPosition()
+    {
+        return rect.Y; // Returnera plattformens Y-position
+    }
 
-    public void Update(Game.Difficulty difficulty)
+    public override void Update(Game.Difficulty difficulty)
     {
         if (difficulty == Game.Difficulty.Medium)
         {
@@ -42,3 +48,4 @@ public class Platform
         }
     }
 }
+
