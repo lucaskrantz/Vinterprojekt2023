@@ -27,6 +27,8 @@ public class Game
 
     public int gameState = 0;
 
+
+
     public void ChangeDifficulty()
     {
         if (removeCount >= 10 && removeCount < 20)

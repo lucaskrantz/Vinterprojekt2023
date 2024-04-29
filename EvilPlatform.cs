@@ -16,6 +16,7 @@ public class EvilPlatform : Platform
     {
         color = Color.RED;
         mediumSpeed = -24;
+        hardSpeed = -30;
         rect.Y = generator.Next(300, 500);
     }
 
