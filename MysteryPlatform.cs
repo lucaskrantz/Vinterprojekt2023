@@ -13,6 +13,6 @@ public class MysteryPlatform : EvilPlatform
         mediumSpeed = -14;
         color = Color.BLACK;
         rect.Y = generator.Next(300, 500);
-        randomValue = generator.Next(0, 1200);
+        randomValue = generator.Next(100, 1100);
     }
 }

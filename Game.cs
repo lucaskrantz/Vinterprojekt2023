@@ -20,7 +20,7 @@ public class Game
     private float timerMax = 1f;
     private float eTimerMax = 4f;
     private float mTimerMax = 6f;
-    private int removeCount = 0;
+    public int removeCount = 0;
     public int gameState = 0;
 
     public void ChangeDifficulty()
@@ -93,8 +93,12 @@ public class Game
         // Startskärmen
         string StartInstru = "Tryck på vänsterklick för att spela!";
         string StartInstru2 = "Se upp för de röda och svarta plattofrmarna!";
+        string StartInstru3 = "Använd A- och D-tangenten för att gå åt vänster och höger!";
+        string StartInstru4 = "Använd SPACE-tangenten för att hoppa!";
         Raylib.DrawText(StartInstru, 400, 400, 20, Color.WHITE);
         Raylib.DrawText(StartInstru2, 440, 440, 20, Color.WHITE);
+        Raylib.DrawText(StartInstru3, 400, 480, 20, Color.WHITE);
+        Raylib.DrawText(StartInstru4, 400, 520, 20, Color.WHITE);
         if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
         {
             gameState = 1;

@@ -22,6 +22,8 @@ while (Raylib.WindowShouldClose() == false)
         // game.Remove(platforms);
         Raylib.BeginDrawing();
         Raylib.ClearBackground(Color.WHITE);
+        Raylib.DrawText($"{game.removeCount}", 100, 100, 20, Color.RED);
+
         cube.Draw();
         Console.WriteLine($"{cube.onGround}");
         // game.DrawHud(cube.velocity, cube.rect.Y, game.timer, platforms, game.eTimer);

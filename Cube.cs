@@ -79,6 +79,7 @@ public class Cube
         onGround = true;
     }
 
+    //Metod för att kolla collision mellan kuben och olika plattformar.
     public void CheckPlatformCollision(List<PlatformBase> platforms)
     {
         foreach (PlatformBase platformBase in platforms)
@@ -94,17 +95,20 @@ public class Cube
                     SetYPos(platform);
                 }
             }
-
-            if (platformBase is EvilPlatform ePlatform && Raylib.CheckCollisionRecs(rect, ePlatform.GetCollisionRect()))
+            //Även fast MysteryPlatform är en typ av EvilPlatform, så appliceras bara MysteryPlatforms Debuff istället för båda plattformarnas debuff vid kollision.
+            //Detta är för att MysteryPlatform kollas först, och ifall plattformen inte är en MysteryPlatform så är det en EvilPlatform, och då appliceras EvilPlatform.
+            if (platformBase is MysteryPlatform mPlatform && Raylib.CheckCollisionRecs(rect, mPlatform.GetCollisionRect()))
             {
+                //Debuff, slumpar kubens x värde
+                rect.X = mPlatform.randomValue;
+                rect.Y = 100;
+            }
+            else if (platformBase is EvilPlatform ePlatform && Raylib.CheckCollisionRecs(rect, ePlatform.GetCollisionRect()))
+            {
+                //Debuff, dödar kuben
                 health -= ePlatform.removeHealth;
             }
 
-            if (platformBase is MysteryPlatform mPlatform && Raylib.CheckCollisionRecs(rect, mPlatform.GetCollisionRect()))
-            {
-                rect.X = mPlatform.randomValue;
-                rect.Y = 0;
-            }
         }
     }
     // public void CheckPlatformCollision(List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
