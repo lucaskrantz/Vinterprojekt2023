@@ -14,17 +14,20 @@ public class Game
 
     public Difficulty currentDifficulty = Difficulty.Easy;
     public List<PlatformBase> platforms = new List<PlatformBase>(); // Använder en generisk lista för plattformar
+    public List<Raindrop> raindrops = new List<Raindrop>(); // Använder en generisk lista för regndroppar
 
     private float timer = 0f;
     private float eTimer = 0f;
     private float mTimer = 0f;
+    private float rTimer = 0f;
     private float timerMax = 1f;
     private float eTimerMax = 4f;
     private float mTimerMax = 6f;
+    private float rTimerMax = 3f;
     public int removeCount = 0;
     public int gameState = 0;
 
-//Ändrar difficultyn beroende på hur många plattformar som har passerat utanför skärmen och tagits bort. 
+    //Ändrar difficultyn beroende på hur många plattformar som har passerat utanför skärmen och tagits bort. 
     public void ChangeDifficulty()
     {
         if (removeCount >= 10 && removeCount < 20)
@@ -38,14 +41,16 @@ public class Game
             currentDifficulty = Difficulty.Hard;
         }
     }
-//En super-metod som lägger till nya plattformar nör respektive timer går ut. Update-metoden kör även plattformarnas update och draw-kod.
+    //En super-metod som lägger till nya plattformar nör respektive timer går ut. Update-metoden kör även plattformarnas update och draw-kod.
     public void Update()
     {
         if (gameState == 1)
         {
-            timer -= Raylib.GetFrameTime(); ;
+            timer -= Raylib.GetFrameTime();
             eTimer -= Raylib.GetFrameTime();
             mTimer -= Raylib.GetFrameTime();
+            rTimer -= Raylib.GetFrameTime();
+
 
             if (timer <= 0)
             {
@@ -63,6 +68,11 @@ public class Game
             {
                 AddPlatform<MysteryPlatform>(); // Lägg till MysteryPlatform
                 mTimer = mTimerMax;
+            }
+            if (rTimer <= 0)
+            {
+                AddRaindrop();
+                rTimer = rTimerMax;
             }
 
             // Uppdatera och rita ut alla plattformar
@@ -82,10 +92,30 @@ public class Game
         }
     }
 
+    public void UpdateDrops()
+    {
+        for (int i = raindrops.Count - 1; i >= 0; i--)
+        {
+            var raindrop = raindrops[i];
+            raindrop.Update(currentDifficulty);
+            raindrop.Draw();
+
+            if (raindrop.GetYPosition() <= -raindrop.rect.Width)
+            {
+                raindrops.Remove(raindrop);
+            }
+        }
+
+    }
+
     // Generisk metod för att lägga till en ny plattform i listan
     private void AddPlatform<T>() where T : PlatformBase, new()
     {
         platforms.Add(new T());
+    }
+    private void AddRaindrop()
+    {
+        raindrops.Add(new Raindrop());
     }
 
     public void StartScreen()
@@ -130,6 +160,8 @@ public class Game
         // Metod som anropas när spelaren dör
         gameState = 2;
     }
+
+
 
     public void DrawHud(int velocity, float y, float timer)
     {

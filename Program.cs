@@ -20,13 +20,13 @@ while (Raylib.WindowShouldClose() == false)
     {
         game.ChangeDifficulty();
         cube.SetonGroundToFalse();
-        cube.Update(game, game.platforms);
+        cube.Update(game, game.platforms, game.raindrops);
         game.Update();
+        game.UpdateDrops();
         // game.Remove(platforms);
         Raylib.BeginDrawing();
         Raylib.ClearBackground(Color.WHITE);
         Raylib.DrawText($"{game.removeCount}", 100, 100, 20, Color.RED);
-
         cube.Draw();
         Console.WriteLine($"{cube.onGround}");
         // game.DrawHud(cube.velocity, cube.rect.Y, game.timer, platforms, game.eTimer);

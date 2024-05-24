@@ -112,7 +112,16 @@ public class Cube
 
         }
     }
-
+    public void CheckRainDropCollision(List<Raindrop> raindrops)
+    {
+        foreach (Raindrop r in raindrops)
+        {
+            if (Raylib.CheckCollisionRecs(rect, r.GetCollisionRect()))
+            {
+                health--;
+            }
+        }
+    }
 
     public void IsAlive(Game game)
     {
@@ -122,11 +131,12 @@ public class Cube
         }
     }
 
-    public void Update(Game game, List<PlatformBase> platforms)
+    public void Update(Game game, List<PlatformBase> platforms, List<Raindrop> raindrops)
     {
         IsAlive(game);
         CheckCollision(game);
         CheckPlatformCollision(platforms);
+        CheckRainDropCollision(raindrops);
         Move();
         ApplyVelocity();
     }
