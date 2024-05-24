@@ -31,7 +31,7 @@ public class Platform : PlatformBase
     {
         return rect.Y; // Returnera plattformens Y-position
     }
-
+//En metod för att justera platformarnas hastighet beroende på vilken difficulty som är aktuell.
     public override void Update(Game.Difficulty difficulty)
     {
         if (difficulty == Game.Difficulty.Medium)

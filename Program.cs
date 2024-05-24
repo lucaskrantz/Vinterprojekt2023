@@ -5,11 +5,14 @@ Raylib.InitWindow(1200, 800, "Vinterprojekt2023");
 Raylib.SetTargetFPS(60);
 Cube cube = new Cube();
 Game game = new Game();
-// List<Platform> platforms = new List<Platform>();
-// List<EvilPlatform> ePlatforms = new List<EvilPlatform>();
-// List<MysteryPlatform> mPlatforms = new List<MysteryPlatform>();
 
+//Debug-kod
 Console.WriteLine($"{game.gameState}");
+
+//Spelkoden
+//Först kollas det vilket gamestate som är aktuellt, alltså ifall spelet ska visa startskärm eller gameOverskärm osv.
+//Ifall gameState är lika med 1 så ska spelet köras. Då sätts difficultyn och lite andra småvariabler. Sedan körs kubens och game-klassens update metoder.
+//Sedan ritas spelet.
 while (Raylib.WindowShouldClose() == false)
 {
     game.CheckGameState();

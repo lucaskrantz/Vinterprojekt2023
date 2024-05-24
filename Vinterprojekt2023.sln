@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vinterprojekt2023", "Vinter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSON-Ö", "..\JSON-Ö\JSON-Ö.csproj", "{887FA457-82EA-49B1-BF39-494F09BA1C4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Try-Catch", "..\Try-Catch\Try-Catch.csproj", "{57317701-C67D-49B2-95E3-A23A602294C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{887FA457-82EA-49B1-BF39-494F09BA1C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{887FA457-82EA-49B1-BF39-494F09BA1C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{887FA457-82EA-49B1-BF39-494F09BA1C4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57317701-C67D-49B2-95E3-A23A602294C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57317701-C67D-49B2-95E3-A23A602294C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57317701-C67D-49B2-95E3-A23A602294C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57317701-C67D-49B2-95E3-A23A602294C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

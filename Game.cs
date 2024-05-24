@@ -4,6 +4,7 @@ using Vinterprojekt2023;
 
 public class Game
 {
+    //Enums som motsvarar olika difficultys
     public enum Difficulty
     {
         Easy,
@@ -23,6 +24,7 @@ public class Game
     public int removeCount = 0;
     public int gameState = 0;
 
+//Ändrar difficultyn beroende på hur många plattformar som har passerat utanför skärmen och tagits bort. 
     public void ChangeDifficulty()
     {
         if (removeCount >= 10 && removeCount < 20)
@@ -36,7 +38,7 @@ public class Game
             currentDifficulty = Difficulty.Hard;
         }
     }
-
+//En super-metod som lägger till nya plattformar nör respektive timer går ut. Update-metoden kör även plattformarnas update och draw-kod.
     public void Update()
     {
         if (gameState == 1)
@@ -77,8 +79,6 @@ public class Game
                 }
             }
 
-            // Ta bort plattformar som har passerat vänster kant
-            // platforms.RemoveAll(p => p.rect.X <= -p.rect.Width);
         }
     }
 

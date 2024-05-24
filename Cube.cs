@@ -14,6 +14,7 @@ public class Cube
         Raylib.DrawRectangleRec(rect, Color.BLUE);
     }
 
+    //Flyttar kuben berodne på input.
     public void Move()
     {
 
@@ -34,7 +35,7 @@ public class Cube
         rect.Y += velocity;
     }
 
-
+    //Lägger till velocity till kuben så att den faller när man hoppar.
     public void ApplyVelocity()
     {
         if (onGround)
@@ -111,33 +112,7 @@ public class Cube
 
         }
     }
-    // public void CheckPlatformCollision(List<Platform> platforms, List<EvilPlatform> ePlatforms, List<MysteryPlatform> mPlatforms)
-    // {
-    //     foreach (Platform platform in platforms)
-    //     {
-    //         if (Raylib.CheckCollisionRecs(rect, platform.rect))
-    //         {
-    //             onGround = true;
-    //             velocity = 0;
-    //             SetYPos(platform);
-    //         }
-    //     }
-    //     foreach (EvilPlatform ePlatform in ePlatforms)
-    //     {
-    //         if (Raylib.CheckCollisionRecs(rect, ePlatform.rect))
-    //         {
-    //             health -= ePlatform.removeHealth;
-    //         }
-    //     }
-    //     foreach (MysteryPlatform mPlatform in mPlatforms)
-    //     {
-    //         if (Raylib.CheckCollisionRecs(rect, mPlatform.rect))
-    //         {
-    //             rect.X = mPlatform.randomValue;
-    //             rect.Y = 0;
-    //         }
-    //     }
-    // }
+
 
     public void IsAlive(Game game)
     {
